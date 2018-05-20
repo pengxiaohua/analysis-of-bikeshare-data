@@ -34,3 +34,9 @@
 * 每种用户类型有多少人？
 * 每种性别有多少人？
 * 出生年份最早的是哪一年、最晚的是哪一年，最常见的是哪一年？
+
+### 文件
+* bikeshare.py
+* chicago.csv
+* new_york_city.csv
+* washington.csv
