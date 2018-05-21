@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 CITY_DATA = { 'Chicago': 'chicago.csv',
-              'New York': 'new_york_city.csv',
+              'New York City': 'new_york_city.csv',
               'Washington': 'washington.csv' }
 
 months = ['January', 'February', 'March', 'April', 'May', 'June']
@@ -19,23 +19,23 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-    # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     while True:
         try:
             city = input('\nHello! Let\'s explore some US bikeshare data!\n'
-                        'Would you like to see data for Chicago, New York, or Washington?\n').title()
+                        'Would you like to see data for Chicago, New York City, or Washington?\n').title()
 
             if city not in CITY_DATA:
-                raise ValueError('\nERROR: Invalid city entered "{}". Only enter Chicago, New York or Washington.'.format(city))
+                raise ValueError('\nERROR: Invalid city entered "{}". Only enter Chicago, New York City or Washington.'.format(city))
 
-            # TO DO: get user input for month (all, january, february, ... , june)
+            # get user input for month (all, january, february, ... , june)
             month = input('\nWhich month? January, February, March, April, May, or June?\n').title()
-            if month not in months and month != 'all':
+            if month not in months and month != 'All':
                 raise ValueError('\nERROR: Invalid month entered "{}". Only enter months from January to June or all'.format(month))
 
-            # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
+            # get user input for day of week (all, monday, tuesday, ... sunday)
             day = input('\nWhich day? all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday\n').title()
-            if day not in week and day != 'all':
+            if day not in week and day != 'All':
                 raise ValueError('\nERROR: Invalid day entered "{}". Only enter week from Monday to Sunday or all'.format(month))
 
             print('-'*40)
@@ -92,15 +92,15 @@ def time_stats(df):
 
     months = ['January', 'February', 'March', 'April', 'May', 'June']
 
-    # TO DO: display the most common month
+    # display the most common month
     most_commom_month = df['month'].mode()[0]
     print("\nThe most common month is {}".format(months[most_commom_month - 1]))
 
-    # # TO DO: display the most common day of week
+    # # display the most common day of week
     most_commom_week = df['day_of_week'].mode()[0]
     print("\nThe most common week is {}".format(most_commom_week))
 
-    # # TO DO: display the most common start hour
+    # # display the most common start hour
     df['hour'] = df['Start Time'].dt.hour
     most_commom_start_hour = df['hour'].mode()[0]
     print("\nThe most common start hour is {}".format(most_commom_start_hour))
@@ -115,15 +115,15 @@ def station_stats(df):
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    # TO DO: display most commonly used start station
+    # display most commonly used start station
     most_commomly_start_station = df['Start Station'].mode()[0]
     print("\nThe most commonly start hour is {}".format(most_commomly_start_station))
 
-    # TO DO: display most commonly used end station
+    # display most commonly used end station
     most_commomly_end_station = df['End Station'].mode()[0]
     print("\nThe most commonly end hour is {}".format(most_commomly_end_station))
 
-    # TO DO: display most frequent combination of start station and end station trip
+    # display most frequent combination of start station and end station trip
     df['Combined Station'] = df['Start Station'] + " - " + df['End Station']
     most_frequent_combination_station = df['Combined Station'].mode()[0]
     print("\nThe most most frequent combination of start station and end station trip is {}".format(most_frequent_combination_station))
@@ -139,11 +139,11 @@ def trip_duration_stats(df):
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
-    # TO DO: display total travel time
+    # display total travel time
     total_travel_time = df['Trip Duration'].sum()
     print('\nThe total travel time is {} seconds.'.format(round(total_travel_time, 2)))
 
-    # TO DO: display mean travel time
+    # display mean travel time
     mean_travel_time = df['Trip Duration'].mean()
     print('\nThe mean travel time is {} seconds.'.format(round(mean_travel_time, 2)))
 
@@ -157,18 +157,18 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # TO DO: Display counts of user types
+    # Display counts of user types
     counts_of_user_types = df['User Type'].value_counts()
     print('\nThe counts of user types is:\n{}.\n'.format(counts_of_user_types))
 
-    # TO DO: Display counts of gender
+    # Display counts of gender
     try:
         counts_of_gender = df['Gender'].value_counts()
         print('\nThe counts of gender is:\n{}.\n'.format(counts_of_gender))
     except:
         print('Gender column does not exist!')
 
-    # TO DO: Display earliest, most recent, and most common year of birth
+    # Display earliest, most recent, and most common year of birth
     try:
         earliest_year_of_birth = df['Birth Year'].min()
         print('\nThe earliest year of birth is {}.'.format(earliest_year_of_birth))
