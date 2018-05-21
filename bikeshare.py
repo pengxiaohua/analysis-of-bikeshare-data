@@ -6,6 +6,9 @@ CITY_DATA = { 'Chicago': 'chicago.csv',
               'New York': 'new_york_city.csv',
               'Washington': 'washington.csv' }
 
+months = ['January', 'February', 'March', 'April', 'May', 'June']
+week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -17,17 +20,31 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    city = input('\nHello! Let\'s explore some US bikeshare data!\n'
-                 'Would you like to see data for Chicago, New York, or Washington?\n')
+    while True:
+        try:
+            city = input('\nHello! Let\'s explore some US bikeshare data!\n'
+                        'Would you like to see data for Chicago, New York, or Washington?\n')
 
-    # TO DO: get user input for month (all, january, february, ... , june)
-    month = input('\nWhich month? January, February, March, April, May, or June?\n')
+            if city not in CITY_DATA:
+                raise ValueError('\nERROR: Invalid city entered "{}". Only enter Chicago, New York or Washington.'.format(city))
 
-    # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-    day = input('\nWhich day? all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday\n')
+            # TO DO: get user input for month (all, january, february, ... , june)
+            month = input('\nWhich month? January, February, March, April, May, or June?\n')
+            if month not in months and month != 'all':
+                raise ValueError('\nERROR: Invalid month entered "{}". Only enter months from January to June or all'.format(month))
 
-    print('-'*40)
-    return city, month, day
+            # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
+            day = input('\nWhich day? all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday\n')
+            if day not in week and day != 'all':
+                raise ValueError('\nERROR: Invalid day entered "{}". Only enter week from Monday to Sunday or all'.format(month))
+
+            print('-'*40)
+            return city, month, day
+
+        except ValueError as error:
+            print(error)
+        except KeyboardInterrupt:
+            break
 
 
 def load_data(city, month, day):
@@ -41,9 +58,9 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-    city = city.lower().title()
-    month = month.lower().title()
-    day = day.lower().title()
+    city = city.title()
+    month = month.title()
+    day = day.title()
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
 
@@ -57,7 +74,6 @@ def load_data(city, month, day):
     # filter by month if applicable
     if month != 'All':
         # use the index of the months list to get the corresponding int
-        months = ['January', 'February', 'March', 'April', 'May', 'June']
         month = months.index(month) + 1
 
         # filter by month to create the new dataframe
@@ -154,18 +170,24 @@ def user_stats(df):
     print('\nThe counts of user types is:\n{}.\n'.format(counts_of_user_types))
 
     # TO DO: Display counts of gender
-    counts_of_gender = df['Gender'].value_counts()
-    print('\nThe counts of gender is:\n{}.\n'.format(counts_of_gender))
+    try:
+        counts_of_gender = df['Gender'].value_counts()
+        print('\nThe counts of gender is:\n{}.\n'.format(counts_of_gender))
+    except:
+        print('Gender column does not exist!')
 
     # TO DO: Display earliest, most recent, and most common year of birth
-    earliest_year_of_birth = df['Birth Year'].min()
-    print('\nThe earliest year of birth is {}.'.format(earliest_year_of_birth))
+    try:
+        earliest_year_of_birth = df['Birth Year'].min()
+        print('\nThe earliest year of birth is {}.'.format(earliest_year_of_birth))
 
-    most_recent_year_of_birth = df['Birth Year'].max()
-    print('\nThe most recent year of birth is {}.'.format(most_recent_year_of_birth))
+        most_recent_year_of_birth = df['Birth Year'].max()
+        print('\nThe most recent year of birth is {}.'.format(most_recent_year_of_birth))
 
-    most_common_year_of_birth = df['Birth Year'].mode()[0]
-    print('\nThe most common year of birth is {}.'.format(most_common_year_of_birth))
+        most_common_year_of_birth = df['Birth Year'].mode()[0]
+        print('\nThe most common year of birth is {}.'.format(most_common_year_of_birth))
+    except:
+        print('Birth Year column does not exist!')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
