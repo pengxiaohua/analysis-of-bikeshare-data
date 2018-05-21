@@ -23,18 +23,18 @@ def get_filters():
     while True:
         try:
             city = input('\nHello! Let\'s explore some US bikeshare data!\n'
-                        'Would you like to see data for Chicago, New York, or Washington?\n')
+                        'Would you like to see data for Chicago, New York, or Washington?\n').title()
 
             if city not in CITY_DATA:
                 raise ValueError('\nERROR: Invalid city entered "{}". Only enter Chicago, New York or Washington.'.format(city))
 
             # TO DO: get user input for month (all, january, february, ... , june)
-            month = input('\nWhich month? January, February, March, April, May, or June?\n')
+            month = input('\nWhich month? January, February, March, April, May, or June?\n').title()
             if month not in months and month != 'all':
                 raise ValueError('\nERROR: Invalid month entered "{}". Only enter months from January to June or all'.format(month))
 
             # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-            day = input('\nWhich day? all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday\n')
+            day = input('\nWhich day? all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday\n').title()
             if day not in week and day != 'all':
                 raise ValueError('\nERROR: Invalid day entered "{}". Only enter week from Monday to Sunday or all'.format(month))
 
@@ -58,9 +58,6 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-    city = city.title()
-    month = month.title()
-    day = day.title()
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
 
@@ -78,16 +75,11 @@ def load_data(city, month, day):
 
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
-    elif month == 'All':
-        df = df
 
     # filter by day of week if applicable
     if day != 'All':
         # filter by day of week to create the new dataframe
         df = df[df['day_of_week'] == day]
-
-    elif day == 'All':
-        df = df
 
     return df
 
